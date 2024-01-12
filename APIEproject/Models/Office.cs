@@ -8,7 +8,7 @@ namespace APIEproject.Models
         public Office()
         {
             Orders = new HashSet<Order>();
-            staff = new HashSet<Staff>();
+            Staff = new HashSet<Staff>();
         }
 
         public int OfficeId { get; set; }
@@ -18,6 +18,6 @@ namespace APIEproject.Models
         public string? Address { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Staff> staff { get; set; }
+        public virtual ICollection<Staff> Staff { get; set; }
     }
 }

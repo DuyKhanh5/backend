@@ -18,6 +18,7 @@ namespace APIEproject.Models
 
         public virtual DbSet<Office> Offices { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
+        public virtual DbSet<Shipping> Shippings { get; set; } = null!;
         public virtual DbSet<Staff> Staffs { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
@@ -82,6 +83,26 @@ namespace APIEproject.Models
                     .HasConstraintName("FK__Orders__user_id__36B12243");
             });
 
+            modelBuilder.Entity<Shipping>(entity =>
+            {
+                entity.ToTable("shipping");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(255)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.OrderId).HasColumnName("order_id");
+
+                entity.Property(e => e.Price).HasColumnName("price");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.Shippings)
+                    .HasForeignKey(d => d.OrderId)
+                    .HasConstraintName("FK__shipping__order___6FE99F9F");
+            });
+
             modelBuilder.Entity<Staff>(entity =>
             {
                 entity.ToTable("staffs");
@@ -114,7 +135,7 @@ namespace APIEproject.Models
                     .HasColumnName("staff_name");
 
                 entity.HasOne(d => d.Office)
-                    .WithMany(p => p.staff)
+                    .WithMany(p => p.Staff)
                     .HasForeignKey(d => d.OfficeId)
                     .HasConstraintName("FK__staffs__phone_nu__3A81B327");
             });
