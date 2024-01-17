@@ -21,12 +21,22 @@ builder.Services.AddDbContext<APIEprojectContext>(
         );
 builder.Services.AddDbContext<APIEprojectContext>(ServiceLifetime.Transient);
 
-builder.Services.AddCors(o =>
+//builder.Services.AddCors(o =>
+//{
+//    o.AddPolicy("AllowOrigin", p =>
+//    {
+//        p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+//    });
+//});
+builder.Services.AddCors(options =>
 {
-    o.AddPolicy("AllowOrigin", p =>
-    {
-        p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
+    options.AddPolicy("AllowReactApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
 });
 
 var app = builder.Build();
@@ -43,9 +53,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCors(
-        options => options.WithOrigins("http://localhost:3000").AllowAnyMethod()
-    );
+app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
 
